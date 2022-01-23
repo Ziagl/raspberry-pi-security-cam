@@ -1,8 +1,8 @@
 <?php
-$dir = getcwd();
-$imgDir = '/img/';
+$dir = getcwd() . '/';
+$imgDir = 'img/';
 $fileName = 'camImg';
-$metadataFilename = $dir . '/data.json';
+$metadataFilename = $dir . 'data.json';
 
 $fileExtensionsAllowed = ['jpeg','jpg','png'];
 $supportedTypes = ['cam1','cam2'];
@@ -15,7 +15,8 @@ $fileType = $fileInfo['type'];
 $fileExtension = strtolower(end(explode('.',$fileName)));
 $type = strtolower(reset(explode('-',$fileName)));
 
-$uploadPath = $dir . $imgDir . basename($fileName);
+$newFileName = $imgDir . $type . "." . $fileExtension;
+$uploadPath = $dir . $newFileName;
 
 // upload file
 
@@ -42,7 +43,7 @@ else
 {
     // update metadata
     $metadata = json_decode(file_get_contents($metadataFilename), true);
-    $metadata[$type] = date("Y-m-d H:i:s", time());
+    $metadata[$type] = array("filename" => $newFileName, "timestamp" => date("Y-m-d H:i:s", time()));
     file_put_contents($metadataFilename, json_encode($metadata));
 }
 

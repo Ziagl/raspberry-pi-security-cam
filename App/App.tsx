@@ -32,7 +32,7 @@ class App extends React.Component<Props, State> {
     super(props);
 
     this.state = { 
-      url: "https://domain.com/pi-camera/",
+      url: "https://my-api-domain.com/",
       data: "data.json",
       metadata: undefined 
     }

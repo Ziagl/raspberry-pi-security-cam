@@ -43,7 +43,21 @@ else
 {
     // update metadata
     $metadata = json_decode(file_get_contents($metadataFilename), true);
-    $metadata[$type] = array("filename" => $newFileName, "timestamp" => date("Y-m-d H:i:s", time()));
+    $insert = true;
+    for($i = 0; $i < count($metadata['images']); ++$i)
+    {
+        if($metadata['images'][$i]["name"] == $type)
+            {
+                $metadata['images'][$i]["filename"] = $newFileName;
+            $metadata['images'][$i]["timestamp"] = date("Y-m-d H:i:s", time());
+            $insert = false;
+            break;
+        }
+    }
+    if($insert)
+    {
+    	$metadata['images'][] = array("name" => $type, "filename" => $newFileName, "timestamp" => date("Y-m-d H:i:s", time()));
+    }
     file_put_contents($metadataFilename, json_encode($metadata));
 }
 

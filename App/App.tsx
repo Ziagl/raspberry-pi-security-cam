@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -17,99 +7,95 @@ import {
   Text,
   useColorScheme,
   View,
+  Image,
+  AppRegistry,
+  Button,
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
+ 
+import { CameraData } from './Cameradata';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// components
+import CameraImage from './components/CameraImage';
+import Header from './components/Header';
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+interface Props { }
+interface State { 
+  url:string,
+  data:string,
+  metadata:CameraData | undefined;
+}
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    this.state = { 
+      url: "https://domain.com/pi-camera/",
+      data: "data.json",
+      metadata: undefined 
+    }
+  }
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
+  componentDidMount() {
+    this.api(this.state.url + this.state.data);
+  }
+
+  async api(url:string):Promise<void> {
+    const data = await( await fetch(url)).json();
+    this.setState({metadata: data});
+    return;
+  }
+
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
         <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {this.state.metadata != undefined ? (
+            this.state.metadata.images.map((element) => {
+              return <CameraImage 
+                name={element.name}
+                filename={this.state.url+element.filename}
+                timestamp={element.timestamp} />
+            })
+          ) : (
+            <ActivityIndicator size="large" />
+          )}
+        </ScrollView>
+        <View style={{flex: 1,justifyContent: 'flex-end',height: 60}}>
+          <TouchableOpacity
+            style={styles.buttonView}
+            onPress={() => this.api(this.state.url + this.state.data)}
+          >
+            <Text style={styles.text}>Reload</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#eeeeee'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  scrollView: {
+    paddingBottom: 60,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  buttonView: {
+    width:'100%',
+    height:60,
+    backgroundColor:'red', 
+    alignItems:'center',
+    justifyContent:'center'
   },
-  highlight: {
-    fontWeight: '700',
-  },
+  text: {
+    color:'white',
+    fontSize: 20
+  }
 });
 
 export default App;

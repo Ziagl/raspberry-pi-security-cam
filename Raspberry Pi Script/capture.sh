@@ -5,7 +5,7 @@ filename=$cameraName-`date +%Y.%m.%d-%H-%M-%s`.jpg
 # sudo mkdir /capture
 # sudo mount -t tmpfs -o size=10m tmpfs /capture
 localStorage='/capture/'$filename
-remoteStorage='/mnt/CarportCam/'$filename
+remoteStorage='/mnt/'$filename
 api=https://my-api-domain.com/upload.php
 
 # create snapshot and save to ramdisk

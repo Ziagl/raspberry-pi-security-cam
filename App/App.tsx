@@ -55,10 +55,12 @@ class App extends React.Component<Props, State> {
         <ScrollView contentContainerStyle={styles.scrollView}>
           {this.state.metadata != undefined ? (
             this.state.metadata.images.map((element) => {
-              return <CameraImage 
-                name={element.name}
-                filename={this.state.url+element.filename}
-                timestamp={element.timestamp} />
+              return <View key={element.name}>
+                  <CameraImage 
+                    name={element.name}
+                    filename={this.state.url+element.filename}
+                    timestamp={element.timestamp} />
+                </View>
             })
           ) : (
             <ActivityIndicator size="large" />

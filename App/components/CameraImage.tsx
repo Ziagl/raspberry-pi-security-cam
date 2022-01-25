@@ -36,7 +36,7 @@ class CameraImage extends React.Component<Props, {}> {
         return this.convertNumber(d.getDate()) + "." + 
                this.convertNumber(d.getMonth() + 1) + "." + 
                this.convertNumber(d.getFullYear()) + " " + 
-               this.convertNumber(d.getHours()) + ":" + 
+               this.convertNumber(d.getHours() - 1) + ":" + 
                this.convertNumber(d.getMinutes());
     }
 
@@ -50,7 +50,7 @@ class CameraImage extends React.Component<Props, {}> {
 
     render() {
         return (
-            <View>
+            <>
                 <Text style={styles.textHeader}>{this.props.name}</Text>
                 <Image 
                     fadeDuration={1000}
@@ -59,7 +59,7 @@ class CameraImage extends React.Component<Props, {}> {
                     style={styles.image}
                 />
                 <Text style={styles.textFooter}>{this.convertTime(this.props.timestamp)}</Text>
-            </View>
+            </>
         );
     }
 };

@@ -24,10 +24,10 @@ class App extends React.Component<Props, State> {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen 
-            name="Home" 
-            component={Home} 
-            options={({navigation}) => ({
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={({ navigation }) => ({
               headerStyle: {
                 height: 60,
                 padding: 15,
@@ -43,8 +43,8 @@ class App extends React.Component<Props, State> {
               ),
             })}
           />
-          <Stack.Screen 
-            name="Settings" 
+          <Stack.Screen
+            name="Settings"
             component={Settings}
             options={() => ({
               headerStyle: {

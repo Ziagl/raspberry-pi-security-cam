@@ -1,103 +1,65 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Image,
-  AppRegistry,
-  Button,
-  ActivityIndicator,
-  TouchableOpacity
-} from 'react-native';
- 
-import { CameraData } from './Cameradata';
+import { Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// screens
+import Home from './screen/Home';
+import Settings from './screen/Settings';
 
 // components
-import CameraImage from './components/CameraImage';
 import Header from './components/Header';
 
+const Stack = createNativeStackNavigator();
+
 interface Props { }
-interface State { 
-  url:string,
-  data:string,
-  metadata:CameraData | undefined;
-}
+interface State { }
 
 class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-
-    this.state = { 
-      url: "https://my-api-domain.com/",
-      data: "data.json",
-      metadata: undefined 
-    }
-  }
-
-  componentDidMount() {
-    this.api(this.state.url + this.state.data);
-  }
-
-  async api(url:string):Promise<void> {
-    const data = await( await fetch(url)).json();
-    this.setState({metadata: data});
-    return;
   }
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Header />
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          {this.state.metadata != undefined ? (
-            this.state.metadata.images.map((element) => {
-              return <View key={element.name}>
-                  <CameraImage 
-                    name={element.name}
-                    filename={this.state.url+element.filename}
-                    timestamp={element.timestamp} />
-                </View>
-            })
-          ) : (
-            <ActivityIndicator size="large" />
-          )}
-        </ScrollView>
-        <View style={{flex: 1,justifyContent: 'flex-end',height: 60}}>
-          <TouchableOpacity
-            style={styles.buttonView}
-            onPress={() => this.api(this.state.url + this.state.data)}
-          >
-            <Text style={styles.text}>Reload</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen 
+            name="Home" 
+            component={Home} 
+            options={({navigation}) => ({
+              headerStyle: {
+                height: 60,
+                padding: 15,
+                backgroundColor: 'darkslateblue',
+              },
+              headerTitle: (props) => <Header {...props} />,
+              headerRight: () => (
+                <Button
+                  onPress={() => navigation.navigate('Settings')}
+                  title="Info"
+                  color="#fff"
+                />
+              ),
+            })}
+          />
+          <Stack.Screen 
+            name="Settings" 
+            component={Settings}
+            options={() => ({
+              headerStyle: {
+                height: 60,
+                padding: 15,
+                backgroundColor: 'darkslateblue',
+              },
+              headerTintColor: '#fff',
+              headerTitle: (props) => <Header title="Settings" {...props} />,
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#eeeeee'
-  },
-  scrollView: {
-    paddingBottom: 60,
-  },
-  buttonView: {
-    width:'100%',
-    height:60,
-    backgroundColor:'red', 
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  text: {
-    color:'white',
-    fontSize: 20
-  }
-});
 
 export default App;

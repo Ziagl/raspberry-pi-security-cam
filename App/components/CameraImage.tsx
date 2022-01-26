@@ -36,7 +36,7 @@ class CameraImage extends React.Component<Props, {}> {
         return this.convertNumber(d.getDate()) + "." + 
                this.convertNumber(d.getMonth() + 1) + "." + 
                this.convertNumber(d.getFullYear()) + " " + 
-               this.convertNumber(d.getHours() - 1) + ":" + 
+               this.convertNumber(d.getHours()) + ":" + 
                this.convertNumber(d.getMinutes());
     }
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         color:'black',
         fontSize: 15,
         paddingBottom: 10,
-        textAlign:'right'
+        textAlign:'right',
     },
 });
 

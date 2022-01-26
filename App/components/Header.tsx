@@ -16,9 +16,7 @@ class Header extends React.Component<Props, {}> {
   
   render() {
     return (
-      <View style={styles.header}>
-        <Text style={styles.text}>{this.props.title}</Text>
-      </View>
+      <Text style={styles.text}>{this.props.title}</Text>
     );
   }
 };

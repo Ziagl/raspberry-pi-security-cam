@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // screens
 import Home from './screen/Home';
@@ -35,11 +35,11 @@ class App extends React.Component<Props, State> {
               },
               headerTitle: (props) => <Header {...props} />,
               headerRight: () => (
-                <Button
-                  onPress={() => navigation.navigate('Settings')}
-                  title="Info"
-                  color="#fff"
-                />
+                <Icon.Button
+                  name="settings-outline"
+                  backgroundColor="darkslateblue"
+                  onPress={() => navigation.navigate('Settings')}>
+                </Icon.Button>
               ),
             })}
           />

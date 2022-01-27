@@ -69,6 +69,7 @@ class Settings extends React.Component<Props, State> {
             onChangeText={text => this.setState({ url: text })}
             value={this.state.url}
             placeholder="Backend URL"
+            placeholderTextColor="#d5d5d5"
           />
           <Text style={styles.settingLabel}>Metadata filename</Text>
           <TextInput
@@ -76,7 +77,7 @@ class Settings extends React.Component<Props, State> {
             onChangeText={text => this.setState({ filename: text })}
             value={this.state.filename}
             placeholder="Metadata filename"
-            keyboardType="numeric"
+            placeholderTextColor="#d5d5d5"
           />
         </ScrollView>
         <View style={styles.buttonContainer}>
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color: 'black'
   },
   text: {
     color: 'white',

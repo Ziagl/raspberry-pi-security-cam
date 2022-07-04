@@ -68,6 +68,7 @@ class Home extends React.Component<Props, State> {
       const data = await (await fetch(url)).json();
       this.setState({ metadata: data });
     } catch (e) {
+      console.log(e);
       Alert.alert(
         "API Error",
         "Please check your settings!",

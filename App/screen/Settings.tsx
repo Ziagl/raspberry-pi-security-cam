@@ -23,8 +23,8 @@ class Settings extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      url: "",
-      filename: ""
+      url: "https://developer-blog.net/camera-example-data/",
+      filename: "data.json"
     }
   }
 
